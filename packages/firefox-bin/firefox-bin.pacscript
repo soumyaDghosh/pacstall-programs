@@ -1,21 +1,21 @@
-name="firefox-bin"
+pkgname="firefox-bin"
 gives="firefox"
 pkgver="124.0.1"
 repology=("project: ${gives}")
-url="https://download-installer.cdn.mozilla.net/pub/firefox/releases/${pkgver}/linux-x86_64/en-US/firefox-${pkgver}.tar.bz2"
+source=("https://download-installer.cdn.mozilla.net/pub/firefox/releases/${pkgver}/linux-x86_64/en-US/firefox-${pkgver}.tar.bz2")
 homepage='https://www.mozilla.org/en-US/firefox'
 pkgdesc="Free and open-source web browser developed by the Mozilla Foundation"
-maintainer="Oren Klopfer <oren@taumoda.com>"
+maintainer=("Oren Klopfer <oren@taumoda.com>")
 arch=('amd64')
-hash="b419cb0a10f6f601b1066d75f57b10e378f56b961be8c9dc1c7f73b869ecf82d"
+sha256sums=("b419cb0a10f6f601b1066d75f57b10e378f56b961be8c9dc1c7f73b869ecf82d")
 
 package() {
-  cd ..
-  sudo mkdir -p "${pkgdir}/lib/firefox"
-  sudo cp -r firefox/* "${pkgdir}/lib/firefox"
-  sudo chmod +x "${pkgdir}/lib/firefox/firefox"
-  sudo chmod +x "${pkgdir}/lib/firefox/firefox-bin"
-  sudo mkdir -p "${pkgdir}/usr/share/applications/"
+  cd "${srcdir}"
+  mkdir -p "${pkgdir}/lib/firefox"
+  cp -r firefox/* "${pkgdir}/lib/firefox"
+  chmod +x "${pkgdir}/lib/firefox/firefox"
+  chmod +x "${pkgdir}/lib/firefox/firefox-bin"
+  mkdir -p "${pkgdir}/usr/share/applications/"
   echo '[Desktop Entry]
 Name=Firefox Stable
 Comment=Web Browser
@@ -30,8 +30,8 @@ Actions=Private;
 
 [Desktop Action Private]
 Exec=/lib/firefox/firefox --private-window %u
-Name=Open in private mode' | sudo tee "${pkgdir}/usr/share/applications/firefox.desktop" > /dev/null
-  sudo mkdir -p "${pkgdir}/usr/bin"
-  sudo ln -s "/lib/firefox/firefox-bin" "${pkgdir}/usr/bin/firefox-bin"
-  sudo ln -s "/lib/firefox/firefox" "${pkgdir}/usr/bin/firefox"
+Name=Open in private mode' | tee "${pkgdir}/usr/share/applications/firefox.desktop" > /dev/null
+  mkdir -p "${pkgdir}/usr/bin"
+  ln -s "/lib/firefox/firefox-bin" "${pkgdir}/usr/bin/firefox-bin"
+  ln -s "/lib/firefox/firefox" "${pkgdir}/usr/bin/firefox"
 }
